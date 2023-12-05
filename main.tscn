@@ -1,0 +1,137 @@
+[gd_scene load_steps=10 format=3 uid="uid://uvqykp4o1ups"]
+
+[ext_resource type="Script" path="res://LoadCSV.gd" id="1_1361n"]
+[ext_resource type="Texture2D" uid="uid://xv2vmt67ie6" path="res://assets/starmap_2020_4k.exr" id="1_pdgtm"]
+[ext_resource type="PackedScene" uid="uid://c2e3g15pghepr" path="res://assets/arrow.glb" id="1_sonsq"]
+[ext_resource type="PackedScene" uid="uid://dwwiu886b7ly" path="res://assets/axis.glb" id="2_7xri3"]
+[ext_resource type="Script" path="res://VideoControls.gd" id="2_jcikg"]
+[ext_resource type="Script" path="res://CameraPivot.gd" id="5_h2y8d"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ydwrf"]
+panorama = ExtResource("1_pdgtm")
+
+[sub_resource type="Sky" id="Sky_sp48g"]
+sky_material = SubResource("PanoramaSkyMaterial_ydwrf")
+
+[sub_resource type="Environment" id="Environment_7s1a3"]
+background_mode = 2
+sky = SubResource("Sky_sp48g")
+ambient_light_source = 1
+
+[node name="VBoxContainer" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Controls" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="LoadCSV" type="HBoxContainer" parent="Controls"]
+layout_mode = 2
+script = ExtResource("1_1361n")
+
+[node name="FileDialog" type="FileDialog" parent="Controls/LoadCSV"]
+title = "Open CSV"
+position = Vector2i(0, 36)
+size = Vector2i(800, 800)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.csv")
+
+[node name="Filename" type="Label" parent="Controls/LoadCSV"]
+layout_mode = 2
+text = "No file loaded"
+
+[node name="LoadButton" type="Button" parent="Controls/LoadCSV"]
+layout_mode = 2
+text = "Load CSV"
+
+[node name="VSeparator2" type="VSeparator" parent="Controls"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="Controls"]
+layout_mode = 2
+text = "Play:"
+
+[node name="VideoControls" type="HBoxContainer" parent="Controls"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_jcikg")
+
+[node name="Play" type="CheckBox" parent="Controls/VideoControls"]
+layout_mode = 2
+disabled = true
+
+[node name="VSeparator" type="VSeparator" parent="Controls/VideoControls"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Controls/VideoControls"]
+layout_mode = 2
+text = "Speed:"
+
+[node name="Speed" type="SpinBox" parent="Controls/VideoControls"]
+layout_mode = 2
+min_value = 0.01
+step = 0.01
+value = 1.0
+
+[node name="VideoSlider" type="HSlider" parent="Controls/VideoControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 0.0
+step = 0.0
+
+[node name="Time" type="Label" parent="Controls/VideoControls"]
+layout_mode = 2
+text = "0.0s"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="mainView" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 613)
+render_target_update_mode = 4
+
+[node name="world" type="WorldEnvironment" parent="SubViewportContainer/mainView"]
+environment = SubResource("Environment_7s1a3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/mainView/world"]
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="SubViewportContainer/mainView/world"]
+transform = Transform3D(1, 0, 0, 0, -0.333807, -0.942641, 0, 0.942641, -0.333807, 0, 0, 0)
+
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="SubViewportContainer/mainView/world"]
+transform = Transform3D(-0.333807, 0, 0.942641, 0, 1, 0, -0.942641, 0, -0.333807, 0, 0, 0)
+
+[node name="DirectionalLight3D4" type="DirectionalLight3D" parent="SubViewportContainer/mainView/world"]
+transform = Transform3D(-0.680721, 0.52159, -0.514357, 0, 0.702153, 0.712026, 0.732543, 0.484691, -0.47797, 0, 0, 0)
+
+[node name="axis" parent="SubViewportContainer/mainView/world" instance=ExtResource("2_7xri3")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5, -5, -5)
+
+[node name="CameraPivot" type="Node3D" parent="SubViewportContainer/mainView/world"]
+transform = Transform3D(0.939693, -0.241845, 0.241845, 0, 0.707107, 0.707107, -0.34202, -0.664463, 0.664463, 0, 0, 0)
+script = ExtResource("5_h2y8d")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/mainView/world/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 21.415)
+fov = 45.0
+
+[node name="Satellite" parent="SubViewportContainer/mainView" instance=ExtResource("1_sonsq")]
+unique_name_in_owner = true
+rotation_edit_mode = 1
+
+[connection signal="data_chosen" from="Controls/LoadCSV" to="Controls/VideoControls" method="_on_load_csv_data_chosen"]
+[connection signal="file_selected" from="Controls/LoadCSV/FileDialog" to="Controls/LoadCSV" method="_on_file_dialog_file_selected"]
+[connection signal="pressed" from="Controls/LoadCSV/LoadButton" to="Controls/LoadCSV" method="_on_load_button_pressed"]
+[connection signal="toggled" from="Controls/VideoControls/Play" to="Controls/VideoControls" method="_on_play_toggled"]
+[connection signal="value_changed" from="Controls/VideoControls/VideoSlider" to="Controls/VideoControls" method="_on_video_slider_value_changed"]
