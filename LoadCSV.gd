@@ -4,19 +4,11 @@ signal data_chosen(times: PackedFloat64Array, quaternions: Array[Quaternion])
 
 var fileDialogButton
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
+# ask user to select a file when load button pressed
 func _on_load_button_pressed():
 	$FileDialog.show();
 
-# get chosen file
+# parse CSV data from selected file, and send it in the data_chosen signal
 func _on_file_dialog_file_selected(path: String):
 	print("Reading CSV from ", path);
 	
@@ -51,6 +43,3 @@ func _on_file_dialog_file_selected(path: String):
 	print("Read ", times.size(), " samples.")
 	
 	$Filename.text = 'File: "' + path.get_file() + '"'
-
-
-

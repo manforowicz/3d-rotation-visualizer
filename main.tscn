@@ -134,4 +134,5 @@ rotation_edit_mode = 1
 [connection signal="file_selected" from="Controls/LoadCSV/FileDialog" to="Controls/LoadCSV" method="_on_file_dialog_file_selected"]
 [connection signal="pressed" from="Controls/LoadCSV/LoadButton" to="Controls/LoadCSV" method="_on_load_button_pressed"]
 [connection signal="toggled" from="Controls/VideoControls/Play" to="Controls/VideoControls" method="_on_play_toggled"]
+[connection signal="drag_started" from="Controls/VideoControls/VideoSlider" to="Controls/VideoControls" method="_on_video_slider_drag_started"]
 [connection signal="value_changed" from="Controls/VideoControls/VideoSlider" to="Controls/VideoControls" method="_on_video_slider_value_changed"]

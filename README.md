@@ -8,7 +8,7 @@ Visualize orientation data over time in 3D.
 3. From Godot, import and open `project.godot`.
 4. Click the triangle in the top right to run the program.
 6. Click `Load CSV` and select the orientation data.
-7. Right click drag on the screen to change the view.
+7. Right click and drag on the screen to change the view.
 8. Use the controls to play the data.
 
 ## Orientation Data Format
