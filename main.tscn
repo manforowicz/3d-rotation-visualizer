@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://uvqykp4o1ups"]
+[gd_scene load_steps=9 format=3 uid="uid://uvqykp4o1ups"]
 
 [ext_resource type="Script" path="res://LoadCSV.gd" id="1_1361n"]
 [ext_resource type="Texture2D" uid="uid://xv2vmt67ie6" path="res://assets/starmap_2020_4k.exr" id="1_pdgtm"]
-[ext_resource type="PackedScene" uid="uid://c2e3g15pghepr" path="res://assets/arrow.glb" id="1_sonsq"]
 [ext_resource type="PackedScene" uid="uid://dwwiu886b7ly" path="res://assets/axis.glb" id="2_7xri3"]
 [ext_resource type="Script" path="res://VideoControls.gd" id="2_jcikg"]
 [ext_resource type="Script" path="res://CameraPivot.gd" id="5_h2y8d"]
@@ -121,16 +120,18 @@ transform = Transform3D(-0.680721, 0.52159, -0.514357, 0, 0.702153, 0.712026, 0.
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5, -5, -5)
 
 [node name="CameraPivot" type="Node3D" parent="SubViewportContainer/mainView/world"]
-transform = Transform3D(0.939693, -0.127015, 0.317561, 0, 0.928486, 0.371368, -0.34202, -0.348972, 0.872491, 0, 0, 0)
+transform = Transform3D(0.989273, -0.0542505, 0.135636, 0, 0.928486, 0.371368, -0.146083, -0.367384, 0.918525, 0, 0, 0)
 script = ExtResource("5_h2y8d")
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/mainView/world/CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 21.415)
 fov = 45.0
 
-[node name="Satellite" parent="SubViewportContainer/mainView" instance=ExtResource("1_sonsq")]
+[node name="Satellite" type="Node3D" parent="SubViewportContainer/mainView"]
 unique_name_in_owner = true
-rotation_edit_mode = 1
+
+[node name="axis" parent="SubViewportContainer/mainView/Satellite" instance=ExtResource("2_7xri3")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -2, -2, -2)
 
 [connection signal="data_chosen" from="Controls/LoadCSV" to="Controls/VideoControls" method="_on_load_csv_data_chosen"]
 [connection signal="file_selected" from="Controls/LoadCSV/FileDialog" to="Controls/LoadCSV" method="_on_file_dialog_file_selected"]

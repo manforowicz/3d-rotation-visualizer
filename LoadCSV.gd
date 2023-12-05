@@ -34,7 +34,11 @@ func _on_file_dialog_file_selected(path: String):
 			vals.append(elem.strip_edges().to_float())
 		
 		times.append(vals[0])
-		quaternions.append(Quaternion(vals[1], vals[2], vals[3], vals[4]))
+		var real = vals[1]
+		var i = vals[2]
+		var j = vals[3]
+		var k = vals[4]
+		quaternions.append(Quaternion(i, j, k, real))
 
 	file.close()
 	
